@@ -4,7 +4,7 @@ const xss = require('xss')
 const getList = (author,keyword) => {
     let sql = `select * from blogs where 1=1 `
     if(author) {
-        sql += `and author = ${author} `
+        sql += `and author = '${author}' `
     }
 
     if(keyword) {
@@ -12,7 +12,6 @@ const getList = (author,keyword) => {
     }
 
     sql += 'order by createtime desc;'
-    console.log(sql)
     return exec(sql)
 }
 
@@ -62,7 +61,7 @@ const deleteBlog = (id, author) => {
     author = escape(author)
 
     let  sql = `delete from blogs where id=${id} and author = ${author}; `
-
+    console.log(sql, '---sql')
     return exec(sql).then(delData=>{
         if(delData.affectedRows > 0) {
             return true
